@@ -1,0 +1,10 @@
+& Test :: A =>
+{
+    match prop
+    {
+        "key" => :: core :: option :: Option :: Some("value"), _ => :: core ::
+        option :: Option :: None "foo" => :: core :: option :: Option ::
+        Some(true)
+    }
+}
+& Test :: B => { match prop { _ => :: core :: option :: Option :: None } }

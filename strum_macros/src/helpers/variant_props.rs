@@ -1,5 +1,7 @@
 use std::default::Default;
-use syn::{Ident, LitStr, Variant};
+use syn::{Ident, LitBool, LitInt, LitStr, Variant};
+
+use crate::helpers::metadata::PropValue;
 
 use super::case_style::{CaseStyle, CaseStyleHelpers};
 use super::metadata::{kw, VariantExt, VariantMeta};
@@ -19,6 +21,8 @@ pub struct StrumVariantProperties {
     pub detailed_message: Option<LitStr>,
     pub documentation: Vec<LitStr>,
     pub string_props: Vec<(LitStr, LitStr)>,
+    pub int_props: Vec<(LitStr, LitInt)>,
+    pub bool_props: Vec<(LitStr, LitBool)>,
     serialize: Vec<LitStr>,
     pub to_string: Option<LitStr>,
     ident: Option<Ident>,
@@ -143,7 +147,13 @@ impl HasStrumVariantProperties for Variant {
                     output.ascii_case_insensitive = Some(value);
                 }
                 VariantMeta::Props { props, .. } => {
-                    output.string_props.extend(props);
+                    for k in props.iter() {
+                        match &k.1 {
+                            PropValue::Bool(b) => output.bool_props.push((k.0.clone(), b.clone())),
+                            PropValue::Int(i) => output.int_props.push((k.0.clone(), i.clone())),
+                            PropValue::Str(s) => output.string_props.push((k.0.clone(), s.clone())),
+                        }
+                    };
                 }
             }
         }

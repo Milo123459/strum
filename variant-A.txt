@@ -1,0 +1,77 @@
+Variant {
+    attrs: [
+        Attribute {
+            pound_token: Pound,
+            style: AttrStyle::Outer,
+            bracket_token: Bracket,
+            meta: Meta::List {
+                path: Path {
+                    leading_colon: None,
+                    segments: [
+                        PathSegment {
+                            ident: Ident {
+                                ident: "strum",
+                                span: #0 bytes(748..753),
+                            },
+                            arguments: PathArguments::None,
+                        },
+                    ],
+                },
+                delimiter: MacroDelimiter::Paren(
+                    Paren,
+                ),
+                tokens: TokenStream [
+                    Ident {
+                        ident: "props",
+                        span: #0 bytes(754..759),
+                    },
+                    Group {
+                        delimiter: Parenthesis,
+                        stream: TokenStream [
+                            Ident {
+                                ident: "key",
+                                span: #0 bytes(760..763),
+                            },
+                            Punct {
+                                ch: '=',
+                                spacing: Alone,
+                                span: #0 bytes(764..765),
+                            },
+                            Literal {
+                                kind: Str,
+                                symbol: "value",
+                                suffix: None,
+                                span: #0 bytes(766..773),
+                            },
+                            Punct {
+                                ch: ',',
+                                spacing: Alone,
+                                span: #0 bytes(773..774),
+                            },
+                            Ident {
+                                ident: "foo",
+                                span: #0 bytes(775..778),
+                            },
+                            Punct {
+                                ch: '=',
+                                spacing: Alone,
+                                span: #0 bytes(779..780),
+                            },
+                            Ident {
+                                ident: "true",
+                                span: #0 bytes(781..785),
+                            },
+                        ],
+                        span: #0 bytes(759..786),
+                    },
+                ],
+            },
+        },
+    ],
+    ident: Ident {
+        ident: "A",
+        span: #0 bytes(797..798),
+    },
+    fields: Fields::Unit,
+    discriminant: None,
+}

@@ -39,7 +39,7 @@ fn crate_module_path_test() {
     #[derive(Debug, EnumProperty)]
     #[strum(crate = "nested::module::strum")]
     enum Test {
-        #[strum(props(key = "value"))]
+        #[strum(props(key = "value", foo = true))]
         A,
         B,
     }

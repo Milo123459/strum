@@ -1,0 +1,9 @@
+Variant {
+    attrs: [],
+    ident: Ident {
+        ident: "B",
+        span: #0 bytes(808..809),
+    },
+    fields: Fields::Unit,
+    discriminant: None,
+}

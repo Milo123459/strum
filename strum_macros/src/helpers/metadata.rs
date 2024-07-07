@@ -1,11 +1,6 @@
 use proc_macro2::TokenStream;
 use syn::{
-    parenthesized,
-    parse::{Parse, ParseStream},
-    parse2, parse_str,
-    punctuated::Punctuated,
-    Attribute, DeriveInput, Expr, ExprLit, Field, Ident, Lit, LitBool, LitStr, Meta, MetaNameValue,
-    Path, Token, Variant, Visibility,
+    parenthesized, parse::{Parse, ParseStream}, parse2, parse_str, punctuated::Punctuated, Attribute, DeriveInput, Expr, ExprLit, Field, Ident, Lit, LitBool, LitInt, LitStr, Meta, MetaNameValue, Path, Token, Variant, Visibility
 };
 
 use super::case_style::CaseStyle;
@@ -144,6 +139,12 @@ impl DeriveInputExt for DeriveInput {
     }
 }
 
+pub enum PropValue {
+    Str(LitStr),
+    Int(LitInt),
+    Bool(LitBool),
+}
+
 pub enum VariantMeta {
     Message {
         kw: kw::message,
@@ -176,7 +177,7 @@ pub enum VariantMeta {
     },
     Props {
         kw: kw::props,
-        props: Vec<(LitStr, LitStr)>,
+        props: Vec<(LitStr, PropValue)>,
     },
 }
 
@@ -239,7 +240,7 @@ impl Parse for VariantMeta {
     }
 }
 
-struct Prop(Ident, LitStr);
+struct Prop(Ident, PropValue);
 
 impl Parse for Prop {
     fn parse(input: ParseStream) -> syn::Result<Self> {
@@ -248,8 +249,14 @@ impl Parse for Prop {
         let k = Ident::parse_any(input)?;
         let _: Token![=] = input.parse()?;
         let v = input.parse()?;
+        let prop_value = match v {
+            Lit::Str(lit_str) => PropValue::Str(lit_str),
+            Lit::Int(lit_int) => PropValue::Int(lit_int),
+            Lit::Bool(lit_bool) => PropValue::Bool(lit_bool),
+            _ => return Err(syn::Error::new(v.span(), "Unsupported literal type")),
+        };
 
-        Ok(Prop(k, v))
+        Ok(Prop(k, prop_value))
     }
 }
 
